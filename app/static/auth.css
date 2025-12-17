@@ -1,0 +1,166 @@
+/* ===== МИНИМАЛИСТИЧНЫЙ СТИЛЬ ДЛЯ СТРАНИЦ АУТЕНТИФИКАЦИИ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+}
+
+.auth-container {
+    max-width: 450px;
+    width: 100%;
+    margin: 20px;
+}
+
+.auth-card {
+    background-color: #fff;
+    padding: 40px;
+    border: 2px solid #000;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.auth-subtitle {
+    color: #000;
+    font-size: 1rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #000;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    padding: 12px 15px;
+    border: 2px solid #000;
+    border-radius: 0;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    color: #000;
+}
+
+.form-input:focus {
+    outline: none;
+    background-color: #f8f8f8;
+}
+
+.submit-btn {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #000;
+    padding: 12px 24px;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #fff;
+    color: #000;
+    transform: translateY(-1px);
+}
+
+.auth-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.auth-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid #000;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: #000;
+}
+
+.auth-link:hover {
+    background-color: #000;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.messages {
+    margin-bottom: 20px;
+}
+
+.success, .error, .info {
+    padding: 12px 15px;
+    border-radius: 0;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    border: 2px solid #000;
+    border-left: 4px solid #000;
+    background-color: #f8f8f8;
+    color: #000;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 30px 20px;
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auth-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .form-input {
+        padding: 10px 12px;
+    }
+}

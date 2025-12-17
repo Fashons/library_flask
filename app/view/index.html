@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мини-песочница - MVC на Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header class="hero-header">
+            <div class="header-content">
+                <h1 class="main-title">
+                    <span class="title-accent">Мини-песочница</span> №1
+                </h1>
+                <p class="subtitle">Архитектура MVC в Flask Framework</p>
+            </div>
+        </header>
+
+        <section class="content-section">
+            <div class="section-header">
+                <h2>О проекте</h2>
+            </div>
+            <div class="description-card">
+                <p class="lead-text">Это приложение на Flask демонстрирует чистую архитектуру Model-View-Controller с минималистичным дизайном</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🗃️</div>
+                        <div class="feature-content">
+                            <h3>Model</h3>
+                            <p>Доменные классы и репозиторий (app/models)</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎮</div>
+                        <div class="feature-content">
+                            <h3>Controller</h3>
+                            <p>Thin-контроллеры с бизнес логикой (app/controllers)</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">👁️</div>
+                        <div class="feature-content">
+                            <h3>View</h3>
+                            <p>Jinja2 шаблоны с простым дизайном (app/views)</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="additional-info">Приложение включает аутентификацию пользователей и работу с книгами в лаконичном интерфейсе</p>
+            </div>
+        </section>
+
+        <nav class="actions-panel">
+            {% if session.get('logged_in') %}
+            <div class="user-info">
+                <span class="user-greeting">Выполнен вход как:</span>
+                <span class="username">{{ session.user }}</span>
+            </div>
+            <a class="btn" href="{{ url_for('books.list_books') }}">
+                <span class="btn-icon">📚</span>
+                Мои книги
+            </a>
+            <a class="btn" href="{{ url_for('auth.logout') }}">
+                <span class="btn-icon">🚪</span>
+                Выйти
+            </a>
+            {% else %}
+            <a class="btn" href="{{ url_for('auth.login') }}">
+                <span class="btn-icon">🔑</span>
+                Войти в систему
+            </a>
+            <a class="btn" href="{{ url_for('auth.register') }}">
+                <span class="btn-icon">📝</span>
+                Регистрация
+            </a>
+            {% endif %}
+        </nav>
+
+        <div class="messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </main>
+</body>
+</html>

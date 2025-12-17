@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Книги</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleBook.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h1>📚 Мои книги</h1>
+      <a href="{{ url_for('index') }}" class="btn" style="border: 2px solid #000; background-color: #fff; color: #000; text-decoration: none; padding: 8px 16px;">
+        <span>🏠</span> На главную
+      </a>
+    </div>
+
+    <!-- Форма редактирования -->
+    <form method="post" action="{{ url_for('books.update_book') }}" class="book-form glass">
+      <input name="id" placeholder="ID книги" required>
+      <input name="new_title" placeholder="Новое название">
+      <input name="new_author" placeholder="Новый автор">
+      <button type="submit" class="btn btn-update">🔄 Заменить</button>
+    </form>
+
+    <!-- Форма добавления -->
+    <form method="post" class="book-form glass">
+      <input name="title" placeholder="Название">
+      <input name="author" placeholder="Автор">
+      <button type="submit" class="btn btn-add">➕ Добавить</button>
+    </form>
+
+    <!-- Список книг -->
+    <div class="books-section glass">
+      <h2>📖 Список книг</h2>
+      <ul class="books-list">
+        {% for b in books %}
+        <li class="book-item">
+          <span><strong>{{ b.id }}.</strong> {{ b.title }} <em>– {{ b.author }}</em></span>
+          <form method="post" action="{{ url_for('books.delete_book', book_id=b.id) }}" class="delete-form">
+            <button type="submit" class="btn-delete" title="Удалить книгу">×</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
