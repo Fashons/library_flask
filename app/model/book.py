@@ -2,9 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Book(db.Model):
     __tablename__ = 'books'
-
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(50), nullable=False)
@@ -15,7 +15,7 @@ class Book(db.Model):
 
 class BookRepo:
     def all(self):
-        return Book.query.all()  # ← Используем Book.query — он сам найдёт сессию
+        return Book.query.all()
 
     def add(self, title, author):
         book = Book(title=title, author=author)
@@ -35,3 +35,7 @@ class BookRepo:
         book.author = author
         db.session.commit()
         return book
+
+    # Добавляем недостающий метод
+    def get_by_id(self, book_id):
+        return Book.query.get(book_id)
