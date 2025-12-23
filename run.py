@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template
 from app.controller.books_controller import bp as books_bp
 from app.controller.auth_controller import bp as auth_bp
 from app.model.user import db
@@ -15,16 +15,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
-
 @login_manager.user_loader
 def load_user(user_id):
-    # Старый способ (устаревший):
-    # return User.query.get(int(user_id))
-
-    # Новый способ (рекомендуемый):
     with app.app_context():
         return db.session.get(User, int(user_id))
-
 
 app.register_blueprint(books_bp)
 app.register_blueprint(auth_bp)
@@ -34,11 +28,9 @@ with app.app_context():
     if not repo.get_by_username('admin'):
         repo.add('admin', 'password123')
 
-
 @app.get("/")
 def index():
     return render_template("index.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)

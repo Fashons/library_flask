@@ -3,88 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мини-песочница - MVC на Flask</title>
+    <title>Flask Library • Современная библиотека</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --gradient-secondary: linear-gradient(135deg, #10b981, #3b82f6);
+            --card-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.25);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #4b5563;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -15px rgba(0, 0, 0, 0.3);
+            border-color: #c7d2fe;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .features-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            box-shadow: 0 5px 25px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #1e293b;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            background: white;
+            border-color: #c7d2fe;
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .feature-icon-box {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .testimonials {
+            margin: 4rem 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: #e0e7ff;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .author-info p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .cta-section {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-logo p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .footer-links ul, .footer-contact ul {
+            list-style: none;
+        }
+
+        .footer-links ul li, .footer-contact ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links ul li a, .footer-contact ul li a {
+            color: #64748b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links ul li a:hover, .footer-contact ul li a:hover {
+            color: #6366f1;
+            transform: translateX(3px);
+        }
+
+        .footer-contact ul li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-section {
+                padding: 2rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-padding {
+                padding: 3rem 0;
+            }
+
+            .stat-value {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <main class="container">
-        <header class="hero-header">
-            <div class="header-content">
-                <h1 class="main-title">
-                    <span class="title-accent">Мини-песочница</span> №1
-                </h1>
-                <p class="subtitle">Архитектура MVC в Flask Framework</p>
-            </div>
-        </header>
-
-        <section class="content-section">
-            <div class="section-header">
-                <h2>О проекте</h2>
-            </div>
-            <div class="description-card">
-                <p class="lead-text">Это приложение на Flask демонстрирует чистую архитектуру Model-View-Controller с минималистичным дизайном</p>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="feature-icon">🗃️</div>
-                        <div class="feature-content">
-                            <h3>Model</h3>
-                            <p>Доменные классы и репозиторий (app/models)</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🎮</div>
-                        <div class="feature-content">
-                            <h3>Controller</h3>
-                            <p>Thin-контроллеры с бизнес логикой (app/controllers)</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">👁️</div>
-                        <div class="feature-content">
-                            <h3>View</h3>
-                            <p>Jinja2 шаблоны с простым дизайном (app/views)</p>
-                        </div>
-                    </div>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Flask Library App</h1>
+                <p class="hero-subtitle">Современное приложение для управления вашей библиотекой на Flask Framework</p>
+                <div class="hero-cta">
+                    {% if session.get('logged_in') %}
+                        <a href="{{ url_for('books.list_books') }}" class="btn btn-primary">
+                            <i class="fas fa-book-open"></i> Мои книги
+                        </a>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Войти
+                        </a>
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">
+                            <i class="fas fa-user-plus"></i> Регистрация
+                        </a>
+                    {% endif %}
                 </div>
-                <p class="additional-info">Приложение включает аутентификацию пользователей и работу с книгами в лаконичном интерфейсе</p>
             </div>
         </section>
 
-        <nav class="actions-panel">
-            {% if session.get('logged_in') %}
-            <div class="user-info">
-                <span class="user-greeting">Выполнен вход как:</span>
-                <span class="username">{{ session.user }}</span>
-            </div>
-            <a class="btn" href="{{ url_for('books.list_books') }}">
-                <span class="btn-icon">📚</span>
-                Мои книги
-            </a>
-            <a class="btn" href="{{ url_for('auth.logout') }}">
-                <span class="btn-icon">🚪</span>
-                Выйти
-            </a>
-            {% else %}
-            <a class="btn" href="{{ url_for('auth.login') }}">
-                <span class="btn-icon">🔑</span>
-                Войти в систему
-            </a>
-            <a class="btn" href="{{ url_for('auth.register') }}">
-                <span class="btn-icon">📝</span>
-                Регистрация
-            </a>
-            {% endif %}
-        </nav>
-
+        <!-- Messages -->
         <div class="messages">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="{{ category }}">{{ message }}</div>
+                        <div class="alert alert-{{ category == 'error' and 'danger' or category }}">
+                            <i class="fas fa-{{ category == 'success' and 'check-circle' or category == 'error' and 'exclamation-circle' or 'info-circle' }}"></i>
+                            {{ message }}
+                        </div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
         </div>
-    </main>
+
+        <!-- Stats Section -->
+        <section class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Книг в базе</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value">50+</div>
+                <div class="stat-label">Активных пользователей</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-value">4.9</div>
+                <div class="stat-label">Рейтинг удовлетворенности</div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="section-title">
+                <h2>Ключевые возможности</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Безопасная аутентификация</h3>
+                    <p>Современная система аутентификации пользователей с защитой данных и защищенными сессиями.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Мощная база данных</h3>
+                    <p>Оптимизированная работа с MySQL и SQLAlchemy ORM для быстрого и надежного доступа к данным.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-box">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Полностью адаптивный</h3>
+                    <p>Интерфейс, который отлично работает на всех устройствах - от мобильных телефонов до больших экранов.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="section-title">
+                <h2>Отзывы пользователей</h2>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        Это лучшее приложение для управления моей личной библиотекой. Простое в использовании и очень интуитивно понятное!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">А</div>
+                        <div class="author-info">
+                            <h4>Анна Петрова</h4>
+                            <p>Студентка</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        Я ценю чистую архитектуру MVC и то, как легко можно модифицировать функционал. Отличная работа!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">М</div>
+                        <div class="author-info">
+                            <h4>Михаил Соколов</h4>
+                            <p>Разработчик</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        Приложение помогло мне организовать мою коллекцию из 200+ книг. Очень доволен возможностями поиска и сортировки!
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">Е</div>
+                        <div class="author-info">
+                            <h4>Екатерина Новикова</h4>
+                            <p>Библиофил</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Начните управлять своей библиотекой сегодня</h2>
+            <p class="cta-text">Зарегистрируйтесь и получите доступ к полному функционалу приложения для управления вашей коллекцией книг</p>
+            {% if not session.get('logged_in') %}
+                <a href="{{ url_for('auth.register') }}" class="btn btn-white">
+                    <i class="fas fa-rocket"></i> Создать аккаунт
+                </a>
+            {% endif %}
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Flask Library</h3>
+                    <p>Современное приложение на Flask Framework</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Ссылки</h4>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Главная</a></li>
+                        <li><a href="{{ url_for('auth.login') if not session.get('logged_in') else url_for('books.list_books') }}">{{ session.get('logged_in') and 'Мои книги' or 'Вход' }}</a></li>
+                        <li><a href="{{ url_for('auth.register') if not session.get('logged_in') else url_for('auth.logout') }}">{{ session.get('logged_in') and 'Выход' or 'Регистрация' }}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@flasklibrary.com</li>
+                        <li><i class="fas fa-code-branch"></i> <a href="https://github.com/Fashons/library_flask" target="_blank">GitHub Repository</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flask Library App. Все права не защищены)</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Анимация при прокрутке
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.stat-card, .feature-card, .testimonial-card');
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+
+                    if (elementPosition < screenPosition) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+
+            // Установка начальных стилей для анимации
+            document.querySelectorAll('.stat-card, .feature-card, .testimonial-card').forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+
+            // Запуск анимации при загрузке страницы
+            setTimeout(() => {
+                animateOnScroll();
+            }, 300);
+
+            // Запуск анимации при прокрутке
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
 </body>
 </html>
